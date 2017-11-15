@@ -61,9 +61,9 @@ public class Main {
   
   @RequestMapping(value = "/room/book/{id}", method = RequestMethod.GET)
   @ResponseBody
-  public String getFoosBySimplePathWithPathVariable(
+  public String getRoomsBySimplePathWithPathVariable(
     @PathVariable("id") long id) {
-      return "Get a specific Foo with id=" + id;
+      return "Get a specific Room with id=" + id;
   }
 
   @RequestMapping("/")
