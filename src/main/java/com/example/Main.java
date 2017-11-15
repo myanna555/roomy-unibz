@@ -24,7 +24,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -33,6 +36,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Map;
+
 
 @Controller
 @SpringBootApplication
@@ -45,7 +49,21 @@ public class Main {
   private DataSource dataSource;
 
   public static void main(String[] args) throws Exception {
+	  
     SpringApplication.run(Main.class, args);
+  }
+  
+  @RequestMapping(value = "/room/book", method = RequestMethod.GET)
+  @ResponseBody
+  public String getFoosBySimplePath() {
+      return "All rooms are taken!!";
+  }
+  
+  @RequestMapping(value = "/room/book/{id}", method = RequestMethod.GET)
+  @ResponseBody
+  public String getFoosBySimplePathWithPathVariable(
+    @PathVariable("id") long id) {
+      return "Get a specific Foo with id=" + id;
   }
 
   @RequestMapping("/")
