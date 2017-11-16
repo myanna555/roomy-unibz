@@ -1,4 +1,4 @@
-package com.example.model;
+package unibz.roomie.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
