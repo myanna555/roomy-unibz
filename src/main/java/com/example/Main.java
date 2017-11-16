@@ -18,6 +18,7 @@ package com.example;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -25,6 +26,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -53,18 +55,7 @@ public class Main {
     SpringApplication.run(Main.class, args);
   }
   
-  @RequestMapping(value = "/room/book", method = RequestMethod.GET)
-  @ResponseBody
-  public String getFoosBySimplePath() {
-      return "All rooms are taken!!";
-  }
-  
-  @RequestMapping(value = "/room/book/{id}", method = RequestMethod.GET)
-  @ResponseBody
-  public String getRoomsBySimplePathWithPathVariable(
-    @PathVariable("id") long id) {
-      return "Get a specific Room with id=" + id;
-  }
+
 
   @RequestMapping("/")
   String index() {
