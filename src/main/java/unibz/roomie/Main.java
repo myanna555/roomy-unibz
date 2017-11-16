@@ -66,17 +66,6 @@ public class Main {
       return "Get a specific Room with id=" + id;
   }
 
-  @RequestMapping("/")
-  String index() {
-    return "index";
-  }
-  
-  @RequestMapping("/api") 
-  String api() {
-	  return "api";
-  }
-
-  @RequestMapping("/db")
   String db(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
