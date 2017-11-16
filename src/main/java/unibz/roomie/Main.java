@@ -53,13 +53,13 @@ public class Main {
     SpringApplication.run(Main.class, args);
   }
   
-  @RequestMapping(value = "/room/book", method = RequestMethod.GET)
+  @RequestMapping(value = "/api/room/book", method = RequestMethod.GET)
   @ResponseBody
   public String getFoosBySimplePath() {
       return "All rooms are taken!!";
   }
   
-  @RequestMapping(value = "/room/book/{id}", method = RequestMethod.GET)
+  @RequestMapping(value = "/api/room/book/{id}", method = RequestMethod.GET)
   @ResponseBody
   public String getRoomsBySimplePathWithPathVariable(
     @PathVariable("id") long id) {
