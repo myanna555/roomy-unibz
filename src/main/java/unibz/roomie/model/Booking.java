@@ -22,7 +22,7 @@ public class Booking {
 	@JsonProperty("title")
 	private String title;
 	
-	@JsonProperty("user")
+	@JsonProperty("userId")
 	private String userId;
 	
 	@JsonProperty("fromTime")
