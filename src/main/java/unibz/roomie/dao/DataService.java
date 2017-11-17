@@ -27,7 +27,7 @@ public class DataService {
             "SELECT * FROM BOOKING";
 
     private static final String DELETE_QUERY =
-            "DELETE from BOOKING where BOOKING_ID = ?";
+            "DELETE from BOOKING where ID = ?";
 
     @Autowired
     private DataSource dataSource;
@@ -78,6 +78,7 @@ public class DataService {
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(DELETE_QUERY);
             stmt.setLong(1, bookingId);
+            stmt.executeUpdate();
         } catch (SQLException e) {
             throw new BookingException("Query of bookings failed", e);
         }
