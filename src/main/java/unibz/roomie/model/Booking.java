@@ -4,20 +4,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Booking {
 	
-	@JsonProperty("room")
+	@JsonProperty("bookingId")
 	private String bookingId;
 	
-	@JsonProperty("room")
+	@JsonProperty("roomId")
 	private String roomId;
 	
 	@JsonProperty("day")
-	private String day;
+	private int day;
 	
 	@JsonProperty("month")
-	private String month;
+	private int month;
 	
 	@JsonProperty("year")
-	private String year;
+	private int year;
 	
 	@JsonProperty("title")
 	private String title;
@@ -25,13 +25,14 @@ public class Booking {
 	@JsonProperty("user")
 	private String userId;
 	
-	@JsonProperty("from")
-	private String fromTime;
+	@JsonProperty("fromTime")
+	private int fromTime;
 	
-	@JsonProperty("to")
-	private String toTime;
+	@JsonProperty("toTime")
+	private int toTime;
 	
-	public Booking(String bid, String rid, String day, String month, String year, String title, String user, String from, String to) {
+	public Booking(String bid, String rid, int day, int month,
+				   int year, String title, String user, int from, int to) {
 		this.bookingId = bid;
 		this.roomId = rid;
 		this.day = day;
