@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS BOOKING (
-   ID             VARCHAR(50)                 NOT NULL,
+   ID             SERIAL                 NOT NULL,
    ROOM_ID        VARCHAR(50)                 NOT NULL,
    DAY            INT                         NOT NULL,
    MONTH          INT                         NOT NULL,
