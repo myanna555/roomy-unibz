@@ -1,27 +1,25 @@
 package unibz.roomie.controller;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 
-@Controller
+@RestController
 public class RoomController {
 
-    
+
 	//to do
-	
+
 	@RequestMapping(value = "/api/room/book", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-	  public @ResponseBody String bookARoom(@RequestBody String jsonString) {
+	  public String bookARoom(@RequestBody String jsonString) {
 	  return jsonString;
 	}
-	
-	
+
+
 	 @RequestMapping(value = "/api/room/book/{id}", method = RequestMethod.GET)
-	  @ResponseBody
 	  public String getRoomsBySimplePathWithPathVariable(
 	    @PathVariable("id") long id) {
 	      return "Get a specific Room with id=" + id;
