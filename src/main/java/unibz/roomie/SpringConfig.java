@@ -21,7 +21,7 @@ public class SpringConfig {
     @Bean
     public DataSource dataSource() throws SQLException {
         if (dbUrl == null || dbUrl.isEmpty()) {
-            return new HikariDataSource();
+            throw new RuntimeException("Db url not found");
         } else {
             HikariConfig config = new HikariConfig();
             config.setJdbcUrl(dbUrl);
