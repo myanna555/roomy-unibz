@@ -30,7 +30,7 @@ public class RoomController {
         }
 	}
 
-    @RequestMapping(value = "/api/room/book/all", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/room/booked", method = RequestMethod.GET)
     public List<Booking> getAllBookings() {
         try {
             return dataService.getAllBookings();
