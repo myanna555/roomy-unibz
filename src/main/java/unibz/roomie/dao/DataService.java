@@ -7,7 +7,10 @@ import unibz.roomie.model.Booking;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by hlib on 17.11.17.
@@ -19,6 +22,9 @@ public class DataService {
             "INSERT INTO BOOKING " +
                     "(ROOM_ID, DAY, MONTH, YEAR, FROM_TIME, TO_TIME, TITLE, USER_ID) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+    private final static String GET_ALL_BOOKINGS_QUERY =
+            "SELECT * FROM BOOKING";
 
     @Autowired
     private DataSource dataSource;
@@ -38,6 +44,30 @@ public class DataService {
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new BookingException("Room booking failed", e);
+        }
+    }
+
+    public List<Booking> getAllBookings() throws BookingException {
+        try (Connection connection = dataSource.getConnection()) {
+            List<Booking> result = new ArrayList<>();
+            PreparedStatement stmt = connection.prepareStatement(GET_ALL_BOOKINGS_QUERY);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Booking booking = new Booking();
+                booking.setBookingId(rs.getLong(1));
+                booking.setRoomId(rs.getString(2));
+                booking.setDay(rs.getInt(3));
+                booking.setMonth(rs.getInt(4));
+                booking.setYear(rs.getInt(5));
+                booking.setFromTime(rs.getInt(6));
+                booking.setToTime(rs.getInt(7));
+                booking.setTitle(rs.getString(8));
+                booking.setUserId(rs.getString(9));
+                result.add(booking);
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new BookingException("Query of bookings failed", e);
         }
     }
 

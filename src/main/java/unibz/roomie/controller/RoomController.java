@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import unibz.roomie.dao.DataService;
 import unibz.roomie.model.Booking;
 
+import java.util.List;
+
 
 @RestController
 public class RoomController {
@@ -27,6 +29,15 @@ public class RoomController {
             return String.format("%s, Reason: %s", e.getMessage(), e.getCause().getMessage());
         }
 	}
+
+    @RequestMapping(value = "/api/room/book/all", method = RequestMethod.GET)
+    public List<Booking> getAllBookings() {
+        try {
+            return dataService.getAllBookings();
+        } catch (DataService.BookingException e) {
+            return null;
+        }
+    }
 
 
 	 @RequestMapping(value = "/api/room/book/{id}", method = RequestMethod.GET)
