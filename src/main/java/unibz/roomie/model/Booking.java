@@ -42,9 +42,41 @@ public class Booking {
 		this.userId = user;
 		this.fromTime = from;
 		this.toTime = to;
-		
 	}
-	
-	
 
+    public String getBookingId() {
+        return bookingId;
+    }
+
+    public String getRoomId() {
+        return roomId;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public int getFromTime() {
+        return fromTime;
+    }
+
+    public int getToTime() {
+        return toTime;
+    }
 }
