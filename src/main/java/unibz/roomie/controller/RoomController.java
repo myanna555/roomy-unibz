@@ -14,13 +14,13 @@ public class RoomController {
     
 	//to do
 	
-	@RequestMapping(value = "/room/book", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	@RequestMapping(value = "/api/room/book", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	  public @ResponseBody String bookARoom(@RequestBody String jsonString) {
 	  return jsonString;
 	}
 	
 	
-	 @RequestMapping(value = "/room/book/{id}", method = RequestMethod.GET)
+	 @RequestMapping(value = "/api/room/book/{id}", method = RequestMethod.GET)
 	  @ResponseBody
 	  public String getRoomsBySimplePathWithPathVariable(
 	    @PathVariable("id") long id) {
