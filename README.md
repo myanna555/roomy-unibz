@@ -1,4 +1,4 @@
-# java-getting-started
+# roomie backend
 
 [![CircleCI](https://circleci.com/gh/heroku/java-getting-started.svg?style=svg)](https://circleci.com/gh/heroku/java-getting-started)
 
@@ -40,3 +40,18 @@ $ heroku open
 For more information about using Java on Heroku, see these Dev Center articles:
 
 - [Java on Heroku](https://devcenter.heroku.com/categories/java)
+
+
+## Requests
+
+#### Booking
+
+Sample request:
+
+echo $(curl -L -w "%{http_code} %{url_effective}\\n" -H "Content-Type: application/json" --data '{"roomId": "E2.04", "day": "1", "month": "1", "year": "2017", "fromTime": "1300", "toTime": "1400", "userId": "hbabii", "title": "JavaSeminar"}' http://roomie-server.herokuapp.com/api/room/book)
+
+#### Cancelling
+
+Sample request:
+
+echo $(curl -L -w "%{http_code} %{url_effective}\\n" -X DELETE -H "Content-Type: application/json" --data '1' http://roomie-server.herokuapp.com/api/room/cancel)
