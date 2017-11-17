@@ -30,6 +30,16 @@ public class RoomController {
         }
 	}
 
+    @RequestMapping(value = "/api/room/cancel", method = RequestMethod.DELETE, produces = "application/json")
+    public String cancelBooking(@RequestBody long bookingId) {
+        try {
+            dataService.delete(bookingId);
+            return "OK";
+        } catch (DataService.BookingException e) {
+            return String.format("%s, Reason: %s", e.getMessage(), e.getCause().getMessage());
+        }
+    }
+
     @RequestMapping(value = "/api/room/booked", method = RequestMethod.GET)
     public List<Booking> getAllBookings() {
         try {

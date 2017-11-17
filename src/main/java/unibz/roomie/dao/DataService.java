@@ -18,13 +18,16 @@ import java.util.List;
 @Service
 public class DataService {
 
-    private final static String BOOK_QUERY =
+    private static final String BOOK_QUERY =
             "INSERT INTO BOOKING " +
                     "(ROOM_ID, DAY, MONTH, YEAR, FROM_TIME, TO_TIME, TITLE, USER_ID) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-    private final static String GET_ALL_BOOKINGS_QUERY =
+    private static final String GET_ALL_BOOKINGS_QUERY =
             "SELECT * FROM BOOKING";
+
+    private static final String DELETE_QUERY =
+            "DELETE from BOOKING where BOOKING_ID = ?";
 
     @Autowired
     private DataSource dataSource;
@@ -66,6 +69,15 @@ public class DataService {
                 result.add(booking);
             }
             return result;
+        } catch (SQLException e) {
+            throw new BookingException("Query of bookings failed", e);
+        }
+    }
+
+    public void delete(long bookingId) throws BookingException {
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(DELETE_QUERY);
+            stmt.setLong(1, bookingId);
         } catch (SQLException e) {
             throw new BookingException("Query of bookings failed", e);
         }
