@@ -2,33 +2,43 @@ package unibz.roomie.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.NotNull;
+
 public class Booking {
-	
+
 	@JsonProperty("bookingId")
 	private long bookingId;
-	
-	@JsonProperty("roomId")
+
+	@NotNull
+	@JsonProperty(value = "roomId")
 	private String roomId;
-	
-	@JsonProperty("day")
+
+	@NotNull
+	@JsonProperty(value = "day")
 	private int day;
-	
-	@JsonProperty("month")
+
+	@NotNull
+	@JsonProperty(value = "month")
 	private int month;
-	
-	@JsonProperty("year")
+
+	@NotNull
+	@JsonProperty(value = "year")
 	private int year;
-	
-	@JsonProperty("title")
+
+	@NotNull
+	@JsonProperty(value = "title")
 	private String title;
-	
-	@JsonProperty("userId")
+
+	@NotNull
+	@JsonProperty(value = "userId")
 	private String userId;
-	
-	@JsonProperty("fromTime")
+
+	@NotNull
+	@JsonProperty(value = "fromTime")
 	private int fromTime;
-	
-	@JsonProperty("toTime")
+
+	@NotNull
+	@JsonProperty(value = "toTime")
 	private int toTime;
 	
 	public Booking(long bid, String rid, int day, int month,

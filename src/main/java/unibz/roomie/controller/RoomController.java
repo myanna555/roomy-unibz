@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import unibz.roomie.dao.DataService;
 import unibz.roomie.model.Booking;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -21,7 +22,7 @@ public class RoomController {
 	//to do
 
 	@RequestMapping(value = "/api/room/book", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-	  public String bookARoom(@RequestBody Booking booking) {
+	  public String bookARoom(@Valid @RequestBody Booking booking) {
         try {
             int bookingId = dataService.book(booking);
             return String.format("{\"bookingId\": \"%d\"}", bookingId);
@@ -31,7 +32,7 @@ public class RoomController {
 	}
 
     @RequestMapping(value = "/api/room/cancel", method = RequestMethod.DELETE, produces = "application/json")
-    public String cancelBooking(@RequestBody long bookingId) {
+    public String cancelBooking(@Valid @RequestBody long bookingId) {
         try {
             dataService.delete(bookingId);
             return "OK";
