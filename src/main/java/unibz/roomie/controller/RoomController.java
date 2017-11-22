@@ -23,8 +23,8 @@ public class RoomController {
 	@RequestMapping(value = "/api/room/book", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	  public String bookARoom(@RequestBody Booking booking) {
         try {
-            dataService.book(booking);
-            return "OK";
+            int bookingId = dataService.book(booking);
+            return String.format("{\"bookingId\": \"%d\"}", bookingId);
         } catch (DataService.BookingException e) {
             return String.format("%s, Reason: %s", e.getMessage(), e.getCause().getMessage());
         }
