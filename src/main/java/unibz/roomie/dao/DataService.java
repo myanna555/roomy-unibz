@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,9 +33,9 @@ public class DataService {
     @Autowired
     private DataSource dataSource;
 
-    public void book(Booking booking) throws BookingException {
+    public int book(Booking booking) throws BookingException {
         try (Connection connection = dataSource.getConnection()) {
-            PreparedStatement stmt = connection.prepareStatement(BOOK_QUERY);
+            PreparedStatement stmt = connection.prepareStatement(BOOK_QUERY, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, booking.getRoomId());
             stmt.setInt(2, booking.getDay());
             stmt.setInt(3, booking.getMonth());
@@ -45,6 +46,9 @@ public class DataService {
             stmt.setString(8, booking.getUserId());
 
             stmt.executeUpdate();
+            ResultSet resultSet = stmt.getGeneratedKeys();
+            resultSet.next();
+            return resultSet.getInt(1);
         } catch (SQLException e) {
             throw new BookingException("Room booking failed", e);
         }
