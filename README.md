@@ -55,3 +55,9 @@ echo $(curl -L -w "%{http_code} %{url_effective}\\n" -H "Content-Type: applicati
 Sample request:
 
 echo $(curl -L -w "%{http_code} %{url_effective}\\n" -X DELETE -H "Content-Type: application/json" --data '1' http://roomie-server.herokuapp.com/api/room/cancel)
+
+
+#### User Registration http://roomie-server.herokuapp.com/api/user/register METHOD PUT
+
+Sample request:
+echo $(curl -L -w "%{http_code} %{url_effective}\\n" -X DELETE -H "Content-Type: application/json" --data '{"email": "john@unibz.it", "password": "mypass", "first": "john", "last": "doe", "phone": "39600202020", "faculty": "Computer Science", "picture": "http://dev.testwpinstall.com.php56-12.phx1-2.websitetestlink.com/wp-content/uploads/2016/02/osmosis-team-01-560x560-150x150.jpg"}' http://roomie-server.herokuapp.com/api/room/book)
