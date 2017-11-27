@@ -20,7 +20,8 @@ public class DatabaseDriver {
 
         HikariConfig config = new  HikariConfig();
         config.setJdbcUrl(System.getenv("JDBC_DATABASE_URL"));
-        final HikariDataSource dataSource = (config.getJdbcUrl() != null) ?
+        @SuppressWarnings("resource")
+		final HikariDataSource dataSource = (config.getJdbcUrl() != null) ?
                 new HikariDataSource(config) : new HikariDataSource();
         return dataSource.getConnection();
     }

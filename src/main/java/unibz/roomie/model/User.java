@@ -34,7 +34,6 @@ public class User {
 	@JsonProperty("picture")
 	private String picture;
 	
-	private String token;
 
 	
     
@@ -49,23 +48,25 @@ public class User {
         this.picture = picture;
     }
     
-    public User() {}
+    public User() {
+    		this.userId = 0;
+    		this.email ="";
+    		this.password ="";
+    		this.firstName ="";
+    		this.lastName="";
+    		this.phone="";
+    		this.faculty="";
+    		this.picture="";
+    }
     
     
     //partial constructors
 
-    public User(int id, String token) {
-        this.userId = id;
-        this.token = token;
-    }
     
     public User(int id) {
         this.userId = id;
     }
 
-    public User(String token) {
-        this.token = token;
-    }
 
     public User(String email, String password) {
         this.email = email;
@@ -138,12 +139,12 @@ public class User {
     		this.picture = pic;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
+ 
+    
+    public String toString() {
+    		return "user -> [id:" + this.getId() + "; email:" + this.getEmail() + 
+    				"; first:" + this.getFirstName() + "; last:" + this.getLastName() + "; phone:" + this.getPhone() + 
+    				"; faculty:" + this.getFaculty() + "; pic:" + this.getPicture();
     }
 }
 

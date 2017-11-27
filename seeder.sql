@@ -21,7 +21,7 @@ phone              VARCHAR(20),
 faculty            VARCHAR(50),
 picture            TEXT,
 PRIMARY KEY (id),
-CONSTRAINT password_name UNIQUE (password)
+CONSTRAINT email_name UNIQUE (email)
 );
 
 

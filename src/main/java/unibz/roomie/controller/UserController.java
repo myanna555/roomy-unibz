@@ -12,7 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
+//import org.springframework.web.bind.support.SessionStatus;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 import unibz.roomie.dao.UserService;
 import unibz.roomie.model.User;
@@ -30,10 +34,14 @@ public class UserController {
 	@RequestMapping(value = "/api/user/register", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	  public String register(@RequestBody User user) {
       try {
-          if(userService.registerUser(user))
-          return "{\"code\":\"200\", \"userId\":\"" + String.valueOf(user.getId()) + "\"}";
-          else
-        	  return "{\"code\":\"400\"}";
+    	  	int userId = userService.registerUser(user);
+          if(userId>0) { 
+        	  	
+        	  	return "{\"code\":\"200\", \"userId\":\"" + String.valueOf(userId) + "\"}";
+          }
+          else {
+        	  	return "{\"code\":\"400\"}";
+          }
       } catch (SQLException e) {
     	  	return String.format("%s, Reason: %s", e.getMessage(), e.getCause().getMessage());
       }
@@ -44,16 +52,25 @@ public class UserController {
 	@RequestMapping(value = "/api/user/login", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	  public String login(@RequestBody User user, HttpSession session) {
 		
-		session.setAttribute("user", user);
 		
     try {
         if(userService.isUserValid(user)) {
+        		//query user by email and create User object to return
+        		user = userService.getUserInfo(user.getEmail());
+        		ObjectWriter writer = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        		String jsonUser = writer.writeValueAsString(user);
+        		String jsonCode = "\"code\":\"200\"";
+        		//jsonCode.concat(jsonUser);
+        		
         		//send user info
-        		return "{\"code\":\"200\"}";
+        		return jsonCode.concat(jsonUser);
         }
         else
       	  return "{\"code\":\"400\"}";
-    } catch (SQLException e) {
+    } catch (JsonProcessingException e) {
+  	  	return String.format("%s, Reason: %s", e.getMessage(), e.getCause().getMessage());
+    }
+    catch (SQLException e) {
   	  	return String.format("%s, Reason: %s", e.getMessage(), e.getCause().getMessage());
     }
 	}
