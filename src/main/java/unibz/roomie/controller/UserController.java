@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,6 +28,10 @@ import unibz.roomie.model.User;
 @Scope("session")
 @SessionAttributes("User")
 public class UserController {
+	final static String SUCCESS = "{\"code\":\"200\"}";
+	final static String ERROR = "{\"code\":\"400\"}";
+	
+	
 	
 	  @Autowired
 	   UserService userService;
@@ -42,7 +47,7 @@ public class UserController {
         	  	return "{\"code\":\"200\", \"userId\":\"" + String.valueOf(userId) + "\"}";
           }
           else {
-        	  	return "{\"code\":\"400\"}";
+        	  	return ERROR;
           }
       } catch (SQLException e) {
     	  	return String.format("%s, Reason: %s", e.getMessage(), e.getCause().getMessage());
@@ -64,7 +69,7 @@ public class UserController {
         		return jsonCode.concat(jsonUser.replaceAll("\\{", ""));
         }
         else
-      	  return "{\"code\":\"400\"}";
+      	  return ERROR;
     } catch (JsonProcessingException e) {
   	  	return String.format("%s, Reason: %s", e.getMessage(), e.getCause().getMessage());
     		}
@@ -76,18 +81,42 @@ public class UserController {
 	//logout user and return the status code
 		@RequestMapping(value = "/api/user/logout", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 		  public String logout(@RequestBody User user, HttpSession session) {		
-			System.out.println(user.getId());
+			
 	    try {
 	        if(userService.doesUserExist(user)) {
-	        		return "{\"code\":\"200\"}";
+	        		return SUCCESS;
 	        }
 	        else
-	      	  	return "{\"code\":\"400\"}";
+	      	  	return ERROR;
 	    }
 	    catch (SQLException e) {
 	  	  	return String.format("%s, Reason: %s", e.getMessage(), e.getCause().getMessage());
 	    		}
 		}
+		
+		
+		//get user info by id
+		@RequestMapping(value = "/api/user/userinfo/{id}", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+		  public String getUserInfo(@PathVariable("id") int userId, HttpSession session) {		
+			
+	    try {	    	
+	    		if(userService.doesUserExist(new User(userId))) {
+	    			User userInfo = userService.getUserInfo(userId);
+	        		ObjectWriter writer = new ObjectMapper().writer().withDefaultPrettyPrinter();
+	        		String jsonUser = writer.writeValueAsString(userInfo);        		
+	        		String jsonCode = "{\"code\":\"200\",";
+	        		return jsonCode.concat(jsonUser.replaceAll("\\{", ""));
+	        }
+	        else
+	      	  return ERROR;
+	    } catch (JsonProcessingException e) {
+	  	  	return String.format("%s, Reason: %s", e.getMessage(), e.getCause().getMessage());
+	    		}
+	    catch (SQLException e) {
+	  	  	return String.format("%s, Reason: %s", e.getMessage(), e.getCause().getMessage());
+	    		}
+		}
+		
 	
 	
 }
