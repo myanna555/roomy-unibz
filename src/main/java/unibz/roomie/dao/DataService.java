@@ -77,6 +77,10 @@ public class DataService {
             if (date.isPresent()) {
                 finalQuery.append("AND YEAR = ? AND MONTH = ? AND DAY = ?");
             }
+            if (userId.isPresent()) {
+                finalQuery.append("UNION SELECT * FROM BOOKING WHERE ID IN" +
+                        "(SELECT booking_id from BOOKING_BY_USER where user_id = ?) ");
+            }
             PreparedStatement stmt = connection.prepareStatement(finalQuery.toString());
             int counter = 0;
             if (userId.isPresent()) {
@@ -95,6 +99,9 @@ public class DataService {
                             "Wrong date format. The format should be: YYYY-MM-DD, but was: "
                             + date.get(), nfe);
                 }
+            }
+            if (userId.isPresent()) {
+                stmt.setInt(++counter, userId.get());
             }
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
