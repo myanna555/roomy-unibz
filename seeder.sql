@@ -47,5 +47,6 @@ ON DELETE RESTRICT;
 
 --Run the following command to update the structure of the db:
 --Locally: cat seeder.sql | psql -d postgres
+--On heroku: cat seeder.sql | pg:psql
 
 
