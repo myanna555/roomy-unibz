@@ -1,5 +1,7 @@
 package unibz.roomie.model;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -12,21 +14,27 @@ public class User {
 	@JsonProperty("userId")
 	private int userId;
 	
+	@NotNull
 	@JsonProperty("email")
 	private String email;
 	
+	@NotNull
 	@JsonProperty("password")
 	private String password;
 	
+	@NotNull
 	@JsonProperty("first")
 	private String firstName;
 	
+	@NotNull
 	@JsonProperty("last")
 	private String lastName;
 	
+	@NotNull
 	@JsonProperty("phone")
 	private String phone;
 	
+	@NotNull
 	@JsonProperty("faculty")
 	private String faculty;
 	

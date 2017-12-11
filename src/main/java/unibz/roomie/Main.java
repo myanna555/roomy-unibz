@@ -43,6 +43,11 @@ public class Main {
       return "index";
     }
     
+    @RequestMapping("/login")
+    String login() {
+        return "index";
+    }
+    
     @RequestMapping("/booked")
     String booked() {
       return "index";

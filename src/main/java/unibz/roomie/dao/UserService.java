@@ -18,9 +18,12 @@ public class UserService {
 
     private static final String GET_USER_INFO_BY_ID = "SELECT * FROM USERS where id = ?";
     
+    private static final String GET_USER_COUNT_BY_ID = "SELECT COUNT(*) FROM USERS where id = ?";
+    
     private static final String GET_USER_INFO_BY_EMAIL = "SELECT * FROM USERS where email = ?";
 
     private static final String GET_USER_PASSWORD_SQL = "SELECT password from USERS where email = ?";
+    
     
     
     public int registerUser(User user) throws SQLException {
@@ -114,6 +117,7 @@ public class UserService {
     //check if user's login email corresponds to their pass in db
     
     public boolean isUserValid(User user) throws SQLException {
+    	if(user.getPassword().isEmpty()) return false;
     	PreparedStatement preparedStatement = null;
     	try{
     	preparedStatement = DatabaseDriver.getConnection().prepareStatement(GET_USER_PASSWORD_SQL);
@@ -136,7 +140,28 @@ public class UserService {
     	}
     }
 
-  
+    public boolean doesUserExist(User user) throws SQLException {
+    	PreparedStatement preparedStatement = null;
+    	try{
+    	preparedStatement = DatabaseDriver.getConnection().prepareStatement(GET_USER_COUNT_BY_ID);
+        preparedStatement.setInt(1, user.getId());
+        ResultSet rs = preparedStatement.executeQuery();
+        int count=0;
+        while (rs.next()) {
+        	count = rs.getInt(1);
+        }
+        if(count>0) return true;
+        else return false;
+        
+    	}
+    	catch (SQLException e ) {
+    		e.printStackTrace();
+    		return false;
+    	}
+    	finally {
+    		if(preparedStatement !=null) preparedStatement.close();
+    	}
+    }
 	
 
 }

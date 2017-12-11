@@ -3,30 +3,92 @@
 
 <body>
 
+<!-- Content Area -->
 
+     
 
-
-				<!-- Content Area -->
-				<div id="grve-content-area">
+<div id="grve-content-area">
 
 					<!-- Content -->
-					<div id="page-7" class="post-7 page type-page status-publish hentry">
+					<div id="page" class="page type-page">
 
-					<div class="grve-section grve-feature-header" style="padding: 60px 417px 10px 64px; margin-bottom: 0px; visibility: visible; margin-left: -64px; margin-right: -417px;" data-section-title="" data-section-type="fullwidth-background" data-image-type="none" data-full-height="no">  
-
-		<div class="grve-row grve-bookmark">
+<div class="grve-section" style="margin-bottom: 0px; visibility: visible; padding-left: 76px; padding-right: 76px; margin-left: -76px; margin-right: -76px;" data-section-title="" data-section-type="fullwidth-background" data-image-type="none" data-full-height="no">  
 
 
-			<div class="wpb_column grve-column grve-bookmark grve-column-1-2 room-entity">
+<div class="grve-row grve-bookmark">
+<div th:if="${session.loggedUser != null} "> 
+<!-- Profile -->
+<div class="wpb_column grve-column grve-bookmark grve-column-1-3">
+                       
+ 
+                       <h2 style="color: #212121;text-align: left" class="vc_custom_heading">PROFILE</h2>
+<!--  image--> 
+<div class="grve-element grve-image border-rad grve-align-left" style="margin-bottom: 40px;">
+<img th:src="${session.loggedUser.picture}" width="150" height="150" class="attachment-thumbnail size-thumbnail"></div>
+                       <div class="grve-element grve-text gray-border vc_custom_1511784067126">
 
 
-				<h2 style="color: #212121;text-align: left" class="vc_custom_heading">HISTORY</h2><div class="grve-element grve-text"><div class="room-entity-full" style="clear: both;">
+<div th:object="${session.loggedUser}">
+<p><strong>Name:</strong> <span th:text="*{#strings.capitalize(firstName)}">first</span> <span th:text="*{#strings.capitalize(lastName)}">last</span><br/>
+<strong>Email:</strong> <span th:text="*{email}">1</span><br/>
+<strong>Mobile:</strong> <span th:text="*{phone}">1</span><br>
+<strong>Faculty:</strong> <span th:text="*{#strings.capitalize(faculty)}">1</span></p>
+<p th:text="${session.map}">1</p>
+<table>
+<tr th:each="l : ${session.map}">
+        <td th:text="${l}">1</td>
+        
+    </tr>
+    </table>
+</div>
+</div>
+</div><!--  end profile section 1/3 -->
+
+<!-- upcoming-->
+<div class="wpb_column grve-column grve-bookmark grve-column-1-3">
+
+<h2 style="color: #212121;text-align: left" class="vc_custom_heading">UPCOMING</h2><div class="grve-element grve-text"><div class="room-entity-full" style="clear: both;">
+<div class="grve-row grve-bookmark">
+<div class="wpb_column grve-column grve-bookmark grve-column-1">
+<div class="grve-element grve-text">
+<h5 class="grve-box-title">GROUP WORK</h5>
+<p class="time"><i class="blue fa fa-clock-o" aria-hidden="true"></i>Dec 10, 12:00-13:00</p>
+<p class="room-number"><i class="blue fa fa-location-arrow" aria-hidden="true"></i><strong>BZ E2.21</strong></p>
+<div class="grve-element grve-align-left" style="margin-top: 20px;">
+<a class="grve-btn grve-btn-extrasmall grve-round grve-black-color grve-btn-line" style="color: #fff;" href="#" target="_self">CANCEL</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="room-entity-full" style="clear: both;">
 <div class="grve-row grve-bookmark">
 <div class="wpb_column grve-column grve-bookmark grve-column-1">
 <div class="grve-element grve-text">
 <h5 class="grve-box-title">TUTORIAL</h5>
-<p class="time"><i class="blue fa fa-clock-o" aria-hidden="true"></i>Nov 13, 16:00-18:00</p>
+<p class="time"><i class="blue fa fa-clock-o" aria-hidden="true"></i>Dec 13, 16:00-18:00</p>
 <p class="room-number"><i class="blue fa fa-location-arrow" aria-hidden="true"></i><strong>BZ E2.21</strong></p>
+<div class="grve-element grve-align-left" style="margin-top: 20px;">
+<a class="grve-btn grve-btn-extrasmall grve-round grve-black-color grve-btn-line" style="color: #fff;" href="#" target="_self">CANCEL</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></div> <!-- END upcoming 1/3 -->
+
+<!-- history-->
+<div class="wpb_column grve-column grve-bookmark grve-column-1-3">
+<h2 style="color: #212121;text-align: left" class="vc_custom_heading">HISTORY</h2><div class="grve-element grve-text"><div class="room-entity-full" style="clear: both;">
+<div class="grve-row grve-bookmark">
+<div class="wpb_column grve-column grve-bookmark grve-column-1">
+<div class="grve-element grve-text">
+<h5 class="grve-box-title">GROUP WORK</h5>
+<p class="time"><i class="blue fa fa-clock-o" aria-hidden="true"></i>Nov 10, 12:00-13:00</p>
+<p class="room-number"><i class="blue fa fa-location-arrow" aria-hidden="true"></i><strong>BZ E2.21</strong></p>
+<div class="roomy-profile grve-element grve-image border-rad participant-img"><img class="attachment-full size-full" src="http://dev.testwpinstall.com.php56-12.phx1-2.websitetestlink.com/wp-content/uploads/2016/02/osmosis-team-01-560x560.jpg" alt="" style="opacity: 1;"></div>
+<div class="roomy-profile grve-element border-rad grve-image participant-img"><img class="attachment-full size-full" src="http://dev.testwpinstall.com.php56-12.phx1-2.websitetestlink.com/wp-content/uploads/2016/02/osmosis-team-02-560x560.jpg" alt="" style="opacity: 1;"></div>
+<div class="roomy-profile grve-element border-rad grve-image participant-img"><img class="attachment-full size-full" src="http://dev.testwpinstall.com.php56-12.phx1-2.websitetestlink.com/wp-content/uploads/2016/02/osmosis-team-03-560x560.jpg" alt="" style="opacity: 1;"></div>
 </div>
 </div>
 </div>
@@ -38,67 +100,30 @@
 <h5 class="grve-box-title">TUTORIAL</h5>
 <p class="time"><i class="blue fa fa-clock-o" aria-hidden="true"></i>Nov 13, 16:00-18:00</p>
 <p class="room-number"><i class="blue fa fa-location-arrow" aria-hidden="true"></i><strong>BZ E2.21</strong></p>
+<div class="roomy-profile grve-element grve-image border-rad participant-img"><img class="attachment-full size-full" src="http://dev.testwpinstall.com.php56-12.phx1-2.websitetestlink.com/wp-content/uploads/2016/02/osmosis-team-01-560x560.jpg" alt="" style="opacity: 1;"></div>
+<div class="roomy-profile grve-element border-rad grve-image participant-img"><img class="attachment-full size-full" src="http://dev.testwpinstall.com.php56-12.phx1-2.websitetestlink.com/wp-content/uploads/2016/02/osmosis-team-02-560x560.jpg" alt="" style="opacity: 1;"></div>
+<div class="roomy-profile grve-element border-rad grve-image participant-img"><img class="attachment-full size-full" src="http://dev.testwpinstall.com.php56-12.phx1-2.websitetestlink.com/wp-content/uploads/2016/02/osmosis-team-03-560x560.jpg" alt="" style="opacity: 1;"></div>
 </div>
 </div>
 </div>
 </div>
+</div></div><!--  end HISTORY 1/3 -->
+</div> <!-- if  user logged in display -->
+<!-- ELSE -->
+<div th:unless="${session.loggedUser != null}">
+  <div class="wpb_column grve-column grve-bookmark grve-column-1-1">
+  <a href="/">Please log in to get the latest news!</a>
+  </div>
 </div>
-
-
-</div>
-
-
-
-<div class="wpb_column grve-column grve-bookmark grve-column-1-2 room-entity">
-
-	<h3 style="color: #212121;text-align: left" class="vc_custom_heading">REGISTER ROOM</h3></div>  </div></div>
-					<!-- End Content -->
+  </div><!--  end row -->
+  
+  </div><!--  end section -->
 
 					</div>
+					<!-- End Content -->
+
+					
 				</div>
-										<!-- Sidebar -->
-		<aside id="grve-sidebar" class="grve-sidebar">
-				
-				<h3 style="color: #212121;text-align: left" class="vc_custom_heading">PROFILE</h3>
-
-<div class="grve-element grve-image border-rad grve-align-left" style="margin-bottom: 40px;">
-
-<img width="150" height="150" src="http://dev.testwpinstall.com.php56-12.phx1-2.websitetestlink.com/wp-content/uploads/2016/02/osmosis-team-01-560x560-150x150.jpg" class="attachment-thumbnail size-thumbnail" alt="" style="opacity: 1;" />
-
-</div>
-
-<div class="grve-element grve-text gray-border vc_custom_1510517136891">
-<br/>
-<br/>
-<br/>
-<p><strong>Name:</strong> Jane Doe<br><br/>
-<strong>City:</strong> Bolzano, Italy<br><br/>
-<strong>Mobile:</strong> +391000000<br><br/>
-<strong>Password:</strong> ***********</p>
-
-<p style="text-align: right;"><a href="#">edit</a></p>
-</div>
-
-<div class="grve-row">
-
-<div class="wpb_column grve-column grve-bookmark grve-column-1-2">
-
-<div class="grve-element grve-align-left"><a class="grve-btn grve-btn-medium grve-square grve-black-color" href="#" target="_self" style=""><span>BOOKING</span></a>
-</div></div>
-
-<div class="wpb_column grve-column grve-bookmark grve-column-1-2"><div class="grve-element grve-align-left"><a class="grve-btn grve-btn-medium grve-square grve-black-color" href="#" target="_self" style=""><span>History</span></a></div></div>
-
-
-</div></div>
-
-				
-				
-				</aside>
-		<!-- End Sidebar -->
-
-			
-
-
 
 </body>
 </html>
