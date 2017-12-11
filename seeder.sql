@@ -45,4 +45,7 @@ REFERENCES BOOKING(id)
 ON UPDATE CASCADE
 ON DELETE RESTRICT;
 
+--Run the following command to update the structure of the db:
+--Locally: cat seeder.sql | psql -d postgres
+
 

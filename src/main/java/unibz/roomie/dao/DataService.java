@@ -1,7 +1,9 @@
 package unibz.roomie.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import unibz.roomie.model.Booking;
 
 import javax.sql.DataSource;
@@ -12,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by hlib on 17.11.17.
@@ -25,7 +28,7 @@ public class DataService {
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     private static final String GET_ALL_BOOKINGS_QUERY =
-            "SELECT * FROM BOOKING";
+            "SELECT * FROM BOOKING WHERE TRUE ";
 
     private static final String DELETE_QUERY =
             "DELETE from BOOKING where ID = ?";
@@ -54,10 +57,36 @@ public class DataService {
         }
     }
 
-    public List<Booking> getAllBookings() throws BookingException {
+    public List<Booking> getAllBookings(Optional<String> date, Optional<String> userId) throws BookingException {
         try (Connection connection = dataSource.getConnection()) {
             List<Booking> result = new ArrayList<>();
-            PreparedStatement stmt = connection.prepareStatement(GET_ALL_BOOKINGS_QUERY);
+            StringBuilder finalQuery = new StringBuilder(GET_ALL_BOOKINGS_QUERY);
+            //TODO this is agly but will work for now
+            if (userId.isPresent()) {
+                finalQuery.append("AND USER_ID = ?");
+            }
+            if (date.isPresent()) {
+                finalQuery.append("AND YEAR = ? AND MONTH = ? AND DAY = ?");
+            }
+            PreparedStatement stmt = connection.prepareStatement(finalQuery.toString());
+            int counter = 0;
+            if (userId.isPresent()) {
+                stmt.setString(++counter, userId.get());
+            }
+            if (date.isPresent()) {
+                try {
+                    int year = Integer.parseInt(date.get().substring(0, 4));
+                    int month = Integer.parseInt(date.get().substring(5, 7));
+                    int day = Integer.parseInt(date.get().substring(8, 10));
+                    stmt.setInt(++counter, year);
+                    stmt.setInt(++counter, month);
+                    stmt.setInt(++counter, day);
+                } catch (NumberFormatException nfe) {
+                    throw new BookingException(
+                            "Wrong date format. The format should be: YYYY-MM-DD, but was: "
+                            + date.get(), nfe);
+                }
+            }
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Booking booking = new Booking();
@@ -88,9 +117,10 @@ public class DataService {
         }
     }
 
-    public class BookingException extends Throwable {
-        public BookingException(String s, SQLException e) {
-            super(s, e);
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public static class BookingException extends RuntimeException {
+        public BookingException(String s, Exception e) {
+             super(s, e);
         }
     }
 }

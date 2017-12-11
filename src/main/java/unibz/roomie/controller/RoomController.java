@@ -5,12 +5,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import unibz.roomie.dao.DataService;
 import unibz.roomie.model.Booking;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -42,12 +44,9 @@ public class RoomController {
     }
 
     @RequestMapping(value = "/api/room/booked", method = RequestMethod.GET)
-    public List<Booking> getAllBookings() {
-        try {
-            return dataService.getAllBookings();
-        } catch (DataService.BookingException e) {
-            return null;
-        }
+    public List<Booking> getAllBookings(@RequestParam Optional<String> date,
+                                        @RequestParam Optional<String> userId) {
+        return dataService.getAllBookings(date, userId);
     }
 
 
