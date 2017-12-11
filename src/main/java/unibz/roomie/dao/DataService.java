@@ -39,6 +39,10 @@ public class DataService {
             "INSERT INTO BOOKING_BY_USER" +
                     "(booking_id, user_id) VALUES (?,?)";
 
+    private static final String PARTICIPANTS_QUERY = "SELECT * FROM USERS where " +
+            "id in (SELECT USER_ID from BOOKING where ID = ? UNION " +
+            "SELECT user_id from BOOKING_BY_USER WHERE booking_id = ?)";
+
     @Autowired
     private DataSource dataSource;
 
@@ -159,6 +163,35 @@ public class DataService {
             } else {
                 throw new BookingException("Room booking failed", e);
             }
+        }
+    }
+
+    public List<User> getBookingParticipants(long bookingId) {
+        try (Connection connection = dataSource.getConnection()) {
+            List<User> result = new ArrayList<>();
+
+            PreparedStatement stmt = connection.prepareStatement(PARTICIPANTS_QUERY);
+            stmt.setLong(1, bookingId);
+            stmt.setLong(2, bookingId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                User userInfo = new User();
+                userInfo.setId(rs.getInt(1));
+                userInfo.setEmail(rs.getString(2));
+                userInfo.setFirstName(rs.getString(4));
+                userInfo.setLastName(rs.getString(5));
+                userInfo.setPhone(rs.getString(6));
+                userInfo.setFaculty(rs.getString(7));
+                userInfo.setPicture(rs.getString(8));
+                result.add(userInfo);
+            }
+            if (result.isEmpty()) {
+                throw new BookingNotFoundException(
+                        "Booking " + bookingId + " does not exist", null);
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new BookingException("Query of bookings failed", e);
         }
     }
 

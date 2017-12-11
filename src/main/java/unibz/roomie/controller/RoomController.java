@@ -1,6 +1,7 @@
 package unibz.roomie.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import unibz.roomie.dao.DataService;
 import unibz.roomie.model.Booking;
 import unibz.roomie.model.BookingJoining;
+import unibz.roomie.model.User;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -54,5 +56,12 @@ public class RoomController {
         int bookingId = dataService.join(bookingJoining);
         return String.format("{\"bookingId\": \"%d\"}", bookingId);
     }
+
+    @RequestMapping(value = "/api/booking/{bookingId}/participants", method = RequestMethod.GET)
+    public List<User> getAllParticipants(@PathVariable long bookingId) {
+        return dataService.getBookingParticipants(bookingId);
+    }
+
+
 
 }
