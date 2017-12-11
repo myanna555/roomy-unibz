@@ -62,8 +62,9 @@ public class UserService {
     	preparedStatement = DatabaseDriver.getConnection().prepareStatement(GET_USER_INFO_BY_ID);
         preparedStatement.setInt(1, userId);
         ResultSet rs = preparedStatement.executeQuery();
-        User userInfo = new User();
+        User userInfo = null;
         while (rs.next()) {
+			userInfo = new User();
         	userInfo.setId(rs.getInt(1));
         	userInfo.setEmail(rs.getString(2));
         	userInfo.setFirstName(rs.getString(4));
