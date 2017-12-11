@@ -31,7 +31,7 @@ public class Booking {
 
 	@NotNull
 	@JsonProperty(value = "userId")
-	private String userId;
+	private int userId;
 
 	@NotNull
 	@JsonProperty(value = "fromTime")
@@ -42,7 +42,7 @@ public class Booking {
 	private int toTime;
 	
 	public Booking(long bid, String rid, int day, int month,
-				   int year, String title, String user, int from, int to) {
+				   int year, String title, int user, int from, int to) {
 		this.bookingId = bid;
 		this.roomId = rid;
 		this.day = day;
@@ -81,7 +81,7 @@ public class Booking {
 		this.title = title;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 
@@ -117,7 +117,7 @@ public class Booking {
         return title;
     }
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 

@@ -45,7 +45,7 @@ public class RoomController {
 
     @RequestMapping(value = "/api/room/booked", method = RequestMethod.GET)
     public List<Booking> getAllBookings(@RequestParam Optional<String> date,
-                                        @RequestParam Optional<String> userId) {
+                                        @RequestParam Optional<Integer> userId) {
         return dataService.getAllBookings(date, userId);
     }
 

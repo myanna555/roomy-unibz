@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS BOOKING (
    FROM_TIME      INT                         NOT NULL,
    TO_TIME        INT                         NOT NULL,
    TITLE          VARCHAR(200)                NOT NULL,
-   USER_ID        VARCHAR(50)                 NOT NULL,
+   USER_ID        INT                 NOT NULL,
    PRIMARY KEY (ID)
 );
 

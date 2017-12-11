@@ -46,7 +46,7 @@ public class DataService {
             stmt.setInt(5, booking.getFromTime());
             stmt.setInt(6, booking.getToTime());
             stmt.setString(7, booking.getTitle());
-            stmt.setString(8, booking.getUserId());
+            stmt.setInt(8, booking.getUserId());
 
             stmt.executeUpdate();
             ResultSet resultSet = stmt.getGeneratedKeys();
@@ -57,7 +57,7 @@ public class DataService {
         }
     }
 
-    public List<Booking> getAllBookings(Optional<String> date, Optional<String> userId) throws BookingException {
+    public List<Booking> getAllBookings(Optional<String> date, Optional<Integer> userId) throws BookingException {
         try (Connection connection = dataSource.getConnection()) {
             List<Booking> result = new ArrayList<>();
             StringBuilder finalQuery = new StringBuilder(GET_ALL_BOOKINGS_QUERY);
@@ -71,7 +71,7 @@ public class DataService {
             PreparedStatement stmt = connection.prepareStatement(finalQuery.toString());
             int counter = 0;
             if (userId.isPresent()) {
-                stmt.setString(++counter, userId.get());
+                stmt.setInt(++counter, userId.get());
             }
             if (date.isPresent()) {
                 try {
@@ -98,7 +98,7 @@ public class DataService {
                 booking.setFromTime(rs.getInt(6));
                 booking.setToTime(rs.getInt(7));
                 booking.setTitle(rs.getString(8));
-                booking.setUserId(rs.getString(9));
+                booking.setUserId(rs.getInt(9));
                 result.add(booking);
             }
             return result;
