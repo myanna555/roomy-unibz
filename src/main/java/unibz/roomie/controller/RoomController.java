@@ -26,13 +26,10 @@ public class RoomController {
 	//to do
 
 	@RequestMapping(value = "/api/room/book", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-	  public String bookARoom(@Valid @RequestBody Booking booking) {
-        try {
-            int bookingId = dataService.book(booking);
-            return String.format("{\"bookingId\": \"%d\"}", bookingId);
-        } catch (DataService.BookingException e) {
-            return String.format("%s, Reason: %s", e.getMessage(), e.getCause().getMessage());
-        }
+	  public Booking bookARoom(@Valid @RequestBody Booking booking) {
+        int bookingId = dataService.book(booking);
+        booking.setBookingId(bookingId);
+        return booking;
 	}
 
     @RequestMapping(value = "/api/room/cancel", method = RequestMethod.DELETE, produces = "application/json")
