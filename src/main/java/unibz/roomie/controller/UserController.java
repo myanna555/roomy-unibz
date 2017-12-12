@@ -1,9 +1,6 @@
 package unibz.roomie.controller;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
@@ -30,9 +27,9 @@ import java.sql.SQLException;
 public class UserController {
 	final static String SUCCESS = "{\"code\":\"200\"}";
 	final static String ERROR = "{\"code\":\"400\"}";
-	
-	
-	
+
+
+
 	  @Autowired
 	   UserService userService;
 	  DataService dataService;
@@ -42,8 +39,8 @@ public class UserController {
 	  public String register(@RequestBody User user) {
       try {
     	  	int userId = userService.registerUser(user);
-          if(userId>0) { 
-        	  	
+          if(userId>0) {
+
         	  	return "{\"code\":\"200\", \"userId\":\"" + String.valueOf(userId) + "\"}";
           }
           else {
@@ -57,25 +54,14 @@ public class UserController {
 	
 	//login user and return the status code
 	@RequestMapping(value = "/api/user/login", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-	  public String login(@RequestBody User user, HttpSession session) {		
-		
-    try {
+	  public User login(@RequestBody User user, HttpSession session) throws SQLException {
+
         if(userService.isUserValid(user)) {
-        		//query user by email and create User object to return
-        		user = userService.getUserInfo(user.getEmail());
-        		ObjectWriter writer = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        		String jsonUser = writer.writeValueAsString(user);        		
-        		String jsonCode = "{\"code\":\"200\",";
-        		return jsonCode.concat(jsonUser.replaceAll("\\{", ""));
+            //query user by email and create User object to return
+            return userService.getUserInfo(user.getEmail());
+        } else {
+            throw new UserNotExistsException("User " + user.getEmail() + " does not exist", null);
         }
-        else
-      	  return ERROR;
-    } catch (JsonProcessingException e) {
-  	  	return String.format("%s, Reason: %s", e.getMessage(), e.getCause().getMessage());
-    		}
-    catch (SQLException e) {
-  	  	return String.format("%s, Reason: %s", e.getMessage(), e.getCause().getMessage());
-    		}
 	}
 	
 	//logout user and return the status code
