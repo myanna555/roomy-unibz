@@ -131,7 +131,10 @@ public class DataService {
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(DELETE_QUERY);
             stmt.setLong(1, bookingId);
-            stmt.executeUpdate();
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new BookingNotFoundException("Booking " + bookingId + " does not exist", null);
+            }
         } catch (SQLException e) {
             throw new BookingException("Query of bookings failed", e);
         }
