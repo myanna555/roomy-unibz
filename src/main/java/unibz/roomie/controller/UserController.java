@@ -1,10 +1,9 @@
 package unibz.roomie.controller;
 
 
-import java.sql.SQLException;
-
-import javax.servlet.http.HttpSession;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,15 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
-//import org.springframework.web.bind.support.SessionStatus;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-
-import unibz.roomie.dao.UserService;
 import unibz.roomie.dao.DataService;
+import unibz.roomie.dao.UserService;
 import unibz.roomie.model.User;
+
+import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
+
+//import org.springframework.web.bind.support.SessionStatus;
 
 
 @RestController
@@ -96,7 +94,7 @@ public class UserController {
 		
 		
 		//get user info by id
-		@RequestMapping(value = "/api/user/userinfo/{id}", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+		@RequestMapping(value = "/api/user/userinfo/{id}", method = RequestMethod.GET, produces = "application/json")
 		  public String getUserInfo(@PathVariable("id") int userId, HttpSession session) {		
 			
 	    try {	    	
