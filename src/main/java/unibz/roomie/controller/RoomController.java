@@ -33,7 +33,7 @@ public class RoomController {
 	}
 
     @RequestMapping(value = "/api/room/cancel", method = RequestMethod.DELETE, produces = "application/json")
-    public String cancelBooking(@Valid @RequestBody long bookingId) {
+    public String cancelBooking(@Valid @RequestParam long bookingId) {
         try {
             dataService.delete(bookingId);
             return "OK";
