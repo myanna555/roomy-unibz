@@ -36,19 +36,15 @@ public class UserController {
 	  
 	//register user and return the status code
 	@RequestMapping(value = "/api/user/register", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-	  public String register(@RequestBody User user) {
-      try {
+	  public User register(@RequestBody User user) throws SQLException {
     	  	int userId = userService.registerUser(user);
           if(userId>0) {
-
-        	  	return "{\"code\":\"200\", \"userId\":\"" + String.valueOf(userId) + "\"}";
+        	  	return userService.getUserInfo(userId);
           }
           else {
-        	  	return ERROR;
+        	  throw new UserNotExistsException("Registration for " + user.getEmail() + " is unsuccessful", null);
           }
-      } catch (SQLException e) {
-    	  	return String.format("%s, Reason: %s", e.getMessage(), e.getCause().getMessage());
-      }
+     
 	}
 	
 	
