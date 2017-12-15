@@ -36,14 +36,14 @@ ADD CONSTRAINT user_id_fkey
 FOREIGN KEY (user_id)
 REFERENCES USERS(id)
 ON UPDATE CASCADE
-ON DELETE RESTRICT;
+ON DELETE CASCADE;
 
 ALTER TABLE BOOKING_BY_USER
 ADD CONSTRAINT booking_id_fkey
 FOREIGN KEY (booking_id)
 REFERENCES BOOKING(id)
 ON UPDATE CASCADE
-ON DELETE RESTRICT;
+ON DELETE CASCADE;
 
 --Run the following command to update the structure of the db:
 --Locally: cat seeder.sql | psql -d postgres

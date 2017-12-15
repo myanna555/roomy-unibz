@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import unibz.roomie.model.Booking;
 import unibz.roomie.model.BookingJoining;
 import unibz.roomie.model.User;
+import unibz.roomie.util.DatabaseDriver;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -34,6 +35,9 @@ public class DataService {
 
     private static final String DELETE_QUERY =
             "DELETE from BOOKING where ID = ?";
+    
+    private static final String REMOVE_PARTICIPANT =
+            "DELETE from BOOKING_BY_USER where booking_id = ? AND user_id = ?";
 
     private static final String JOIN_BOOKING_QUERY =
             "INSERT INTO BOOKING_BY_USER" +
@@ -42,6 +46,8 @@ public class DataService {
     private static final String PARTICIPANTS_QUERY = "SELECT * FROM USERS where " +
             "id in (SELECT USER_ID from BOOKING where ID = ? UNION " +
             "SELECT user_id from BOOKING_BY_USER WHERE booking_id = ?)";
+    
+    private static final String GET_BOOKING_BY_OWNER = "SELECT COUNT(*) from BOOKING WHERE ID = ? AND user_id = ?";
 
     @Autowired
     private DataSource dataSource;
@@ -139,6 +145,21 @@ public class DataService {
             throw new BookingException("Query of bookings failed", e);
         }
     }
+    
+    /*removes participant from a booking*/
+    public void removeParticipant(long bookingId, int userId) throws BookingException {
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(REMOVE_PARTICIPANT);
+            stmt.setLong(1, bookingId);
+            stmt.setInt(2,  userId);
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new BookingNotFoundException("Booking " + bookingId + " does not exist", null);
+            }
+        } catch (SQLException e) {
+            throw new BookingException("Query of bookings failed", e);
+        }
+    }
 
     public int join(BookingJoining bookingJoining) {
         int bookingId = (int) bookingJoining.getBookingId();
@@ -196,6 +217,36 @@ public class DataService {
         } catch (SQLException e) {
             throw new BookingException("Query of bookings failed", e);
         }
+    }
+    
+    /*helper method - checks to see if the userId owns the booking*/
+    public boolean isBookingOwner(long bookingId, int userId) throws SQLException{
+    	PreparedStatement preparedStatement = null;
+    	try{
+    	preparedStatement = DatabaseDriver.getConnection().prepareStatement(GET_BOOKING_BY_OWNER);
+        preparedStatement.setLong(1,bookingId);
+        preparedStatement.setInt(2,userId);     
+        ResultSet rs = preparedStatement.executeQuery();
+        int count=0;
+        while (rs.next()) {
+        	count = rs.getInt(1);
+        }
+        if(count>0) {
+        		return true;
+        }
+        else  {
+        		return false;
+        }
+        
+    	}
+    	catch (SQLException e ) {
+    		e.printStackTrace();
+    		return false;
+    	}
+    	finally {
+    		if(preparedStatement !=null) preparedStatement.close();
+    	}
+    	
     }
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)

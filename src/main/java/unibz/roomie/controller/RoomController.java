@@ -8,11 +8,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import unibz.roomie.dao.DataService;
+import unibz.roomie.dao.DataService.BookingException;
 import unibz.roomie.model.Booking;
 import unibz.roomie.model.BookingJoining;
 import unibz.roomie.model.User;
 
 import javax.validation.Valid;
+
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,8 +36,16 @@ public class RoomController {
 	}
 
     @RequestMapping(value = "/api/room/cancel", method = RequestMethod.DELETE, produces = "application/json")
-    public void cancelBooking(@Valid @RequestParam long bookingId) {
-        dataService.delete(bookingId);
+    public void cancelBooking(@Valid @RequestParam long bookingId, @Valid @RequestParam int userId) throws BookingException, SQLException {
+        if(dataService.isBookingOwner(bookingId, userId)) {
+        		dataService.delete(bookingId);        		
+        }
+        else {
+        	System.out.println("removing participant " + userId);
+        		dataService.removeParticipant(bookingId, userId);
+        }
+    	
+    
     }
 
     @RequestMapping(value = "/api/room/booked", method = RequestMethod.GET)
